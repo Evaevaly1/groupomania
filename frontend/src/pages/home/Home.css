@@ -1,0 +1,133 @@
+.content-home {
+    background: #ecf0f1;
+    border-top: solid 1px #e0e4e5;
+    min-height: 100vh;
+}
+.post {
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px #c9cccd;
+    margin-bottom: 20px;
+    width: 900px;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+}
+.posttext {
+    width: 100%;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    color: #000000;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.posted{
+    width: 100%;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    color: #363838;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.baniere_gauche{
+    width:90%;
+    height:100%;
+    float:left;
+}
+
+.baniere_droite{
+    width:10%;
+    height:100%;
+    float:right;
+    margin-bottom: 50%;
+}
+
+.boutonCrud{
+    width: 25%;
+    float: right;
+}
+
+.post h2 {
+    color: #363838;
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.postinfobot {
+    border-top: solid 1px #f1f1f1;
+    line-height: 50px;
+    padding: 0 30px 0 94px;
+}
+.postinfobot .posted {
+    width: 300px;
+    margin-left: 18px;
+    font-size: 12px;
+    color: #bdc3c7;
+}
+
+.up {
+    background-color: transparent;
+    border: 0px;
+}
+.up:hover {
+    cursor: pointer;
+}
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0 auto 0 auto;
+
+}
+.pagination-block {
+    display: flex;
+    justify-content: center;
+}
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    background-color: white;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+ul.pagination li a.active {
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
+}
+
+.photo{
+    height: 15px;
+    width: 15px;
+}
+
+ul.pagination li a:hover:not(.active) {background-color: white;}
+
+@keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 10px solid #4E5166; /* Light grey */
+    border-top: 10px solid #FD2D01; /* Black */
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}

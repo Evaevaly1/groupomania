@@ -1,0 +1,4 @@
+node_modules
+.env
+images/
+react-src/node_module
