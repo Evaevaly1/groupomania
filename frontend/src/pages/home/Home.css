@@ -77,6 +77,13 @@
 .up:hover {
     cursor: pointer;
 }
+.down {
+    background-color: transparent;
+    border: 0px;
+}
+.down:hover {
+    cursor: pointer;
+}
 
 ul.pagination {
     display: inline-block;

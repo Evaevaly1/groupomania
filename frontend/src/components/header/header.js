@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import './header.css'
 import {Link, useNavigate} from "react-router-dom";
 import {AuthActionTypes, AuthContext} from "../../utils/AuthContext";
+import {faClock, faEdit, faThumbsUp, faThumbsDown, faTrash} from'@fortawesome/free-solid-svg-icons'
 import {UserActionTypes, UserContext} from "../../utils/UserContext";
 
 function Header() {

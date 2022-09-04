@@ -114,54 +114,70 @@ exports.deletePost = (req, res) => {
 
 // Noter un post (like et dislike)
 exports.notePost = (req, res) => {
-    if (req.body.like === 0) {
-        Post.findOne({ _id: req.params.id })
-            .then((post) => {
-                // l'utilisateur a déjà "liké" le post
-                if (post.usersLiked.find((user) => user === req.body.userId)) {
-                    // retrait d'un like et suppression du userId dans le usersLiked
-                    Post.updateOne(
-                        { _id: req.params.id },
-                        { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
-                    )
-                        .then(() => res.status(200).json({ message: "Note mise à jour" }))
-                        .catch((error) => {
-                            const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
-                            res.status(500).json({ message, data: error });
-                        });
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
-                res.status(500).json({ message, data: error });
-            });
-    }
-    // ajout d'un like et ajout du userId dans le usersLiked
-    if (req.body.like === 1) {
-        Post.updateOne(
-            { _id: req.params.id },
-            { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } }
-        )
 
-            .then(() => res.status(200).json({ message: "Note prise en compte" }))
-            .catch((error) => {
-                const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
-                res.status(500).json({ message, data: error });
-            });
-    }
+  if (req.body.like === 0) {
+      Post.findOne({ _id: req.params.id })
+          .then((post) => {
+              // l'utilisateur a déjà "liké" le post
+              if (post.usersLiked.find((user) => user === req.body.userId)) {
+                  // retrait d'un like et suppression du userId dans le usersLiked
+                  Post.updateOne(
+                      { _id: req.params.id },
+                      { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
+                  )
+                  .then(() => res.status(200).json({ message: "Note mise à jour" }))
+                  .catch((error) => {
+                      const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
+                      res.status(500).json({ message, data: error });
+                  });
+              }
+          })
+          .catch((error) => {
+              console.log(error);
+              const message = `Votre note n'a pas pu être prise en compte, merci de réessayer dans quelques instants.`;
+              res.status(500).json({ message, data: error });
+          });
+  }
+  // ajout d'un like et ajout du userId dans le usersLiked
+  if (req.body.like === 1) {
+      Post.updateOne(
+          { _id: req.params.id },
+          { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } },
+      )
+          .then(() => res.status(200).json({ message: "Note prise en compte" }))
+          .catch((error) => {
+              const message = `Votre note n'a pas pu être prise en compte, merci de réessayer dans quelques instants.`;
+              res.status(500).json({ message, data: error });
+          });
+  }
 
-    // ajout d'un dislike et ajout du userId dans le usersDisliked
-    if (req.body.like === -1) {
-        Post.updateOne(
-            { _id: req.params.id },
-            { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
-        )
+  // ajout d'un dislike et ajout du userId dans le usersDisliked
+  if (req.body.like === -1) {
+      Post.updateOne(
+          { _id: req.params.id },
+          { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
+      )
+      .then(() => res.status(200).json({ message: "Note prise en compte" }))
+      .catch((error) => {
+          const message = `Votre note n'a pas pu être prise en compte, merci de réessayer dans quelques instants.`;
+          res.status(500).json({ message, data: error });
+      });
+  }
 
-            .then(() => res.status(200).json({ message: "Note prise en compte" }))
-            .catch((error) => {
-                const message = `Votre note n'a pu être prise en compte, merci de réessayer dans quelques instants.`;
-                res.status(500).json({ message, data: error });
-            });
-    }
+  // l'utilisateur a déjà "disliké" le post
+  if (req.body.like === -2) {
+      Post.updateOne(
+          { _id: req.params.id },
+          { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
+      )
+
+          .then(() => res.status(200).json({ message: "Note prise en compte" }))
+          .catch((error) => {
+              const message = `Votre note n'a pas pu être prise en compte, merci de réessayer dans quelques instants.`;
+              res.status(500).json({ message, data: error });
+          });
+  }
 };
+
+  
+    

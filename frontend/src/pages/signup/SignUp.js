@@ -80,7 +80,7 @@ function SignUp() {
                     )}
                     <button style={{marginTop: '1em'}} data-testid="Button-valid" type="submit" className='btn btn-primary btn-block'>s'enregistrer</button>
                 </form>
-                <p>Vous avez un compte? <Link to='/'>Se connecter ici</Link></p>
+                <p>Vous avez un compte? <Link to='/'> Se connecter ici</Link></p>
             </div>
         </div>
     );

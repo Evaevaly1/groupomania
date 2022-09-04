@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Header from "../../components/header/header";
 import './Home.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faClock, faEdit, faThumbsUp, faTrash} from '@fortawesome/free-solid-svg-icons'
+import {faClock, faEdit, faThumbsUp, faThumbsDown, faTrash} from'@fortawesome/free-solid-svg-icons'
 import Colors from "./../../utils/Colors"
 import {Link, useNavigate} from "react-router-dom";
 import {useCustomMutation, useCustomMutationDelete, useCustomQuery} from "../../utils/customApiHook";
@@ -24,23 +24,73 @@ function Home() {
     const like = async (post, index) => {
         try {
             const isInclude = post.usersLiked.includes(userId);
+            const isIncludeDislike = post.usersDisliked.includes(userId);
             if (isInclude) {
                 posts[index].usersLiked.splice(post.usersLiked.indexOf(userId), 1);
                 posts[index].likes--;
+                console.log("Moins: ",posts[index].likes);
+                mutationTool('post/' + post._id + '/like', {
+                    like: isInclude? 0 : 1,
+                    userId
+                });
             } else {
                 posts[index].usersLiked.push(userId);
                 posts[index].likes++;
+                console.log("Plus: ",posts[index].likes);
+                mutationTool('post/' + post._id + '/like', {
+                    like: isInclude? 0 : 1,
+                    userId
+                });
+                if(isIncludeDislike){
+                    posts[index].usersDisliked.splice(post.usersDisliked.indexOf(userId), 1);
+                    posts[index].dislikes--;
+                    console.log("Dislike moins: ",posts[index].dislikes);
+                    mutationTool('post/' + post._id + '/like', {
+                        like: -2,
+                        userId
+                    });
+                }
             }
-            const response = await mutationTool('post/' + post._id + '/like', {
-                like: isInclude? 0 : 1,
-                userId
-            });
-
         } catch (e) {
             console.log(e);
         }
     }
-
+    const dislike = async (post, index) => {
+        try {
+            const isInclude = post.usersDisliked.includes(userId);
+            const isIncludeLike = post.usersLiked.includes(userId);
+            if (isInclude) {
+                posts[index].usersDisliked.splice(post.usersDisliked.indexOf(userId), 1);
+                posts[index].dislikes--;
+                console.log("Dislike moins: ",posts[index].dislikes);
+                mutationTool('post/' + post._id + '/like', {
+                    like: -2,
+                    userId
+                });
+            } else {
+                posts[index].usersDisliked.push(userId);
+                posts[index].dislikes++;
+                console.log("Dislike plus: ",posts[index].dislikes);
+                mutationTool('post/' + post._id + '/like', {
+                    like: -1,
+                    userId
+                });
+                if (isIncludeLike){
+                    posts[index].usersLiked.splice(post.usersLiked.indexOf(userId), 1);
+                    posts[index].likes--;
+                    console.log("Moins: ",posts[index].likes);
+                    mutationTool('post/' + post._id + '/like', {
+                        like: 0,
+                        userId
+                    });
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
+           
 	/**
 	 * Display a base64 URL inside an iframe in another window.
 	 */
@@ -124,6 +174,15 @@ function Home() {
                                                 }
                                                 {`${post.likes}`}
                                             </button>
+                                            <button onClick={async () => {await dislike(post, index)}} data-testid="dislike-button" className="down" style={{color: Colors.primary, fontWeight: '700'}}>
+                                                {
+                                                    post.usersDisliked?.includes(userId) ?
+                                                    <FontAwesomeIcon icon={faThumbsDown} color={Colors.tertiaire} size="lg"/> :
+                                                    <FontAwesomeIcon icon={faThumbsDown} color={Colors.secondary} size="lg"/>}{`${post.dislikes}`}
+                                            </button>
+
+
+
                                         </div>
                                         {((post.userId && post.userId._id == userId) || userType == 'admin') && (
                                             <div style={{float: 'right', marginLeft: '500px'}}>
