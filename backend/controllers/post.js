@@ -40,7 +40,8 @@ exports.getAllPosts = (req, res, next) => {
         })
         .catch((error) => {
             console.log(error);
-            const message = "Les sauces n'ont pu être affichées, réessayez plus tard";
+
+            const message = "Les posts n'ont pas pu être affichés, réessayez plus tard";
             res.status(404).json({message, data: error});
         });
 };
